@@ -1,7 +1,0 @@
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/bcppul_static.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/bcppul_shared.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/bcppul_example.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/RUN_TESTS.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/INSTALL.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Bulka/Desktop/programming/cpp/libs/BCPPUL/build/CMakeFiles/ZERO_CHECK.dir
