@@ -7,8 +7,16 @@
 #include <iostream>
 #include <chrono>
 
+#ifdef _MSC_VER
+#include <intrin.h>
+#endif
+
+
+
 
 namespace bcppul {
+	BCPPUL_API unsigned long long rdtsc();
+
 	class BCPPUL_API Timer {
 	public:
 		Timer();
@@ -25,24 +33,24 @@ namespace bcppul {
 		friend bool operator<= (Timer& f, Timer& s);
 		friend BCPPUL_API std::ostream& operator<< (std::ostream& out, Timer& timer);
 
-		virtual long long start();
-		virtual long long stop();
+		virtual unsigned long long start();
+		virtual unsigned long long stop();
 		virtual void printTime();
 		virtual void stopAndPrintTime();
-		virtual long long getStart() const;
-		virtual long long getStop() const;
-		virtual long long getTime();
-		virtual long long getRunning() const;
-		virtual long long updateTime();
+		virtual unsigned long long getStart() const;
+		virtual unsigned long long getStop() const;
+		virtual unsigned long long getTime();
+		virtual unsigned long long getRunning() const;
+		virtual unsigned long long updateTime();
 		virtual long double getTimeSeconds();
 		virtual long double getTimeMilliseconds();
 		virtual long double getTimeMicroseconds();
-		virtual long long getTimeNanoseconds();
+		virtual unsigned long long getTimeNanoseconds();
 
 	protected:
-		long long start_time;
-		long long stop_time;
-		long long time = 0;
+		unsigned long long start_time;
+		unsigned long long stop_time = 0;
+		unsigned long long time = 0;
 		bool running = false;
 
 	private:
@@ -53,6 +61,31 @@ namespace bcppul {
 	public:
 		SimpleTimer();
 		~SimpleTimer();
+	protected:
+	private:
+	};
+
+	class BCPPUL_API CPUCyclesTimer : public Timer {
+	public:
+		CPUCyclesTimer();
+		~CPUCyclesTimer();
+		virtual unsigned long long start() override;
+		virtual unsigned long long stop() override;
+		virtual unsigned long long updateTime() override;
+		virtual unsigned long long getCycles();
+		virtual void printTime() override;
+		friend BCPPUL_API std::ostream& operator<< (std::ostream& out, CPUCyclesTimer& timer);
+
+	protected:
+	private:
+		using Timer::getTimeSeconds;
+		using Timer::getTimeMilliseconds;
+		using Timer::getTimeMicroseconds;
+	};
+	class BCPPUL_API CPUCyclesSimpleTimer : public CPUCyclesTimer {
+	public:
+		CPUCyclesSimpleTimer();
+		~CPUCyclesSimpleTimer();
 	protected:
 	private:
 	};

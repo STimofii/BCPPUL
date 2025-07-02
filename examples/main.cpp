@@ -6,6 +6,5 @@ int main() {
     bcppul::printHello();
 
 
-
     return 0;
 }

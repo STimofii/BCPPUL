@@ -1,6 +1,19 @@
 #include "bcppul/timer.h"
 
-namespace bcppul{
+
+namespace bcppul {
+	unsigned long long rdtsc() {
+		#ifdef _MSC_VER
+				return __rdtsc();
+		#elif defined(__GNUC) || defined(clang)
+				unsigned int lo, hi;
+				asm volatile("rdtsc" : "=a" (lo), "=d" (hi));
+				return ((unsigned long long)hi << 32) | lo;
+		#else
+				return 0;
+		#endif
+	}
+
 	bcppul::Timer::Timer()
 	{
 		start_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -55,19 +68,19 @@ namespace bcppul{
 	}
 	bool operator>(Timer& f, Timer& s)
 	{
-		return f.getTime() > s.getTime(); 
+		return f.getTime() > s.getTime();
 	}
 	bool operator<(Timer& f, Timer& s)
 	{
-		return f.getTime() < s.getTime(); 
+		return f.getTime() < s.getTime();
 	}
 	bool operator>=(Timer& f, Timer& s)
 	{
-		return f.getTime() >= s.getTime(); 
+		return f.getTime() >= s.getTime();
 	}
 	bool operator<=(Timer& f, Timer& s)
 	{
-		return f.getTime() <= s.getTime(); 
+		return f.getTime() <= s.getTime();
 	}
 	bool operator!=(const Timer& f, const Timer& s)
 	{
@@ -81,13 +94,13 @@ namespace bcppul{
 		return out;
 	}
 
-	long long Timer::start(){
+	unsigned long long Timer::start() {
 		running = true;
 		start_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 		return start_time;
 	}
 
-	long long Timer::stop()
+	unsigned long long Timer::stop()
 	{
 		stop_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 		updateTime();
@@ -97,7 +110,7 @@ namespace bcppul{
 
 	void Timer::printTime()
 	{
-		std::cout << this;
+		std::cout << *this;
 	}
 
 	void Timer::stopAndPrintTime()
@@ -108,14 +121,14 @@ namespace bcppul{
 
 
 
-	long long Timer::getStart() const{
+	unsigned long long Timer::getStart() const {
 		return start_time;
 	}
-	long long Timer::getStop() const{
+	unsigned long long Timer::getStop() const {
 		return stop_time;
 	}
 
-	long long Timer::updateTime() {
+	unsigned long long Timer::updateTime() {
 		if (running) {
 			stop_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 		}
@@ -123,13 +136,13 @@ namespace bcppul{
 		return time;
 	}
 
-	long long Timer::getTime() {
+	unsigned long long Timer::getTime() {
 		if (running) {
 			updateTime();
 		}
 		return time;
 	}
-	long long Timer::getRunning() const
+	unsigned long long Timer::getRunning() const
 	{
 		return running;
 	}
@@ -137,24 +150,74 @@ namespace bcppul{
 		getTime();
 		return static_cast<double>(time) / 1000000000;
 	}
-	long double Timer::getTimeMilliseconds(){
+	long double Timer::getTimeMilliseconds() {
 		getTime();
 		return static_cast<double>(time) / 1000000;
 	}
-	long double Timer::getTimeMicroseconds(){
+	long double Timer::getTimeMicroseconds() {
 		getTime();
 		return static_cast<double>(time) / 1000;
 	}
-	long long Timer::getTimeNanoseconds(){
+	unsigned long long Timer::getTimeNanoseconds() {
 		getTime();
 		return time;
 	}
 
 
-	SimpleTimer::SimpleTimer(){
+	SimpleTimer::SimpleTimer() {
 		running = true;
 	}
-	SimpleTimer::~SimpleTimer(){
+	SimpleTimer::~SimpleTimer() {
 		printTime();
+	}
+
+
+	CPUCyclesTimer::CPUCyclesTimer() {
+		start_time = rdtsc();
+
+	}
+	CPUCyclesTimer::~CPUCyclesTimer() {
+
+	}
+	CPUCyclesSimpleTimer::CPUCyclesSimpleTimer() {
+		running = true;
+	}
+	CPUCyclesSimpleTimer::~CPUCyclesSimpleTimer() {
+		printTime();
+	}
+
+	unsigned long long CPUCyclesTimer::getCycles() {
+		return getTime();
+	}
+
+
+	unsigned long long CPUCyclesTimer::start() {
+		running = true;
+		start_time = rdtsc();
+		return start_time;
+	}
+	unsigned long long CPUCyclesTimer::stop() {
+		stop_time = rdtsc();
+		updateTime();
+		running = false;
+		return time;
+	}
+
+	unsigned long long CPUCyclesTimer::updateTime() {
+		if (running) {
+			stop_time = rdtsc();
+		}
+		time = stop_time - start_time;
+		return time;
+	}
+
+	std::ostream& operator<< (std::ostream& out, CPUCyclesTimer& timer)
+	{
+		out << "cycles: " << timer.getTime() << std::endl;
+		return out;
+	}
+
+	void CPUCyclesTimer::printTime() {
+		std::cout << "cycles: " << this->getTime() << std::endl;
 	}
 } //namespace BCPPUL
