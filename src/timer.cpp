@@ -90,7 +90,7 @@ namespace bcppul {
 
 	std::ostream& operator<< (std::ostream& out, Timer& timer)
 	{
-		out << std::fixed << "time: " << timer.getTimeSeconds() << "s" << std::endl;
+		out << std::fixed << std::setprecision(9) << "time: " << timer.getTimeSeconds() << "s" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
 		return out;
 	}
 

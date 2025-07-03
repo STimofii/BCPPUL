@@ -6,6 +6,7 @@
 #include "bcppul_expimp.h"
 #include <iostream>
 #include <chrono>
+#include <iomanip>
 
 #ifdef _MSC_VER
 #include <intrin.h>
