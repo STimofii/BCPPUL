@@ -14,15 +14,11 @@ namespace bcppul {
 		#endif
 	}
 
-	bcppul::Timer::Timer()
-	{
-		start_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	}
+	const char* Timer::pseudo = "Timer";
+	const char* SimpleTimer::pseudo = "SimpleTimer";
+	const char* CPUCyclesTimer::pseudo = "CPUCyclesTimer";
+	const char* CPUCyclesSimpleTimer::pseudo = "CPUCyclesSimpleTimer";
 
-	bcppul::Timer::~Timer()
-	{
-
-	}
 
 	Timer::Timer(const Timer& other) :
 		start_time(other.start_time),
@@ -86,13 +82,14 @@ namespace bcppul {
 	{
 		return !(f == s);
 	}
-
-
-	std::ostream& operator<< (std::ostream& out, Timer& timer)
-	{
-		out << std::fixed << std::setprecision(9) << "time: " << timer.getTimeSeconds() << "s" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
-		return out;
+	const char* Timer::getName() const {
+		return name;
 	}
+	void Timer::setName(const char* name) {
+		this->name = name;
+	}
+
+
 
 	unsigned long long Timer::start() {
 		running = true;
@@ -163,24 +160,39 @@ namespace bcppul {
 		return time;
 	}
 
+	bcppul::Timer::Timer(const char* name, bool auto_start) : name(name)
+	{
+		
+		if (auto_start)
+		{
+			start_time = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+			start();
+		}
+	}
 
-	SimpleTimer::SimpleTimer() {
-		running = true;
+	bcppul::Timer::~Timer()
+	{
+
+	}
+
+	SimpleTimer::SimpleTimer(const char* name, bool auto_start) : Timer(name, auto_start) {
 	}
 	SimpleTimer::~SimpleTimer() {
 		printTime();
 	}
 
-
-	CPUCyclesTimer::CPUCyclesTimer() {
-		start_time = rdtsc();
+	CPUCyclesTimer::CPUCyclesTimer(const char* name, bool auto_start) : Timer (name, false) {
+		if (auto_start)
+		{
+			start_time = rdtsc();
+			start();
+		}
 
 	}
 	CPUCyclesTimer::~CPUCyclesTimer() {
 
 	}
-	CPUCyclesSimpleTimer::CPUCyclesSimpleTimer() {
-		running = true;
+	CPUCyclesSimpleTimer::CPUCyclesSimpleTimer(const char* name, bool auto_start) : CPUCyclesTimer(name, auto_start) {
 	}
 	CPUCyclesSimpleTimer::~CPUCyclesSimpleTimer() {
 		printTime();
@@ -210,14 +222,51 @@ namespace bcppul {
 		time = stop_time - start_time;
 		return time;
 	}
+	std::ostream& operator<< (std::ostream& out, Timer& timer)
+	{
+		out << std::fixed;
+		if (timer.name != nullptr) {
+			if (timer.getStart() == 0) {
+				out << timer.pseudo << " " << timer.name << " WAS NOT STARTED!!!" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
+			} else {
+				out << timer.pseudo << " " << timer.name << " - " << timer.getTimeSeconds() << "s" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
+			}
+		}
+		else {
+			if (timer.getStart() == 0) {
+				out << timer.pseudo << " WAS NOT STARTED!!!" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
+			}
+			else {
+				out << timer.pseudo << " " << timer.getTimeSeconds() << "s" << std::resetiosflags(std::ios_base::fixed | std::ios_base::floatfield) << std::endl;
+			}
+		}
+		return out;
+	}
 
 	std::ostream& operator<< (std::ostream& out, CPUCyclesTimer& timer)
 	{
-		out << "cycles: " << timer.getTime() << std::endl;
+		if (timer.name != nullptr) {
+			if (timer.getStart() == 0) {
+				out << timer.pseudo << " " << timer.name << " WAS NOT STARTED!!!" << std::endl;
+			}
+			else{
+				out << timer.pseudo << " " << timer.name << " - " << timer.getTime() << std::endl;
+			}
+		}
+		else {
+			if (timer.getStart() == 0) {
+				out << timer.pseudo << " WAS NOT STARTED!!!" << std::endl;
+			}
+			else {
+				out << "CPU Cylcles: " << timer.getTime() << std::endl;
+			}
+			
+		}
+		
 		return out;
 	}
 
 	void CPUCyclesTimer::printTime() {
-		std::cout << "cycles: " << this->getTime() << std::endl;
+		std::cout << *this << std::endl;
 	}
 } //namespace BCPPUL

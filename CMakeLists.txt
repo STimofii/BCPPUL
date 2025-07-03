@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(BCPPUL_VERSION_MAJOR 0)
 set(BCPPUL_VERSION_MINOR 1)
-set(BCPPUL_VERSION_PATCH 3)
+set(BCPPUL_VERSION_PATCH 4)
 
 configure_file(
     include/bcppul/version_config.h.in
@@ -22,11 +22,11 @@ add_library(bcppul_shared SHARED)
 
 target_sources(bcppul_static PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp")
 
 target_sources(bcppul_shared PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp")
 
 target_compile_definitions(bcppul_shared PRIVATE BCPPUL_EXPORTS)
 
