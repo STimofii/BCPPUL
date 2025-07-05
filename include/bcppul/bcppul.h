@@ -3,7 +3,7 @@
 #ifndef BCPPUL_H
 #define BCPPUL_H
 
-#include "bcppul_expimp.h"
+#include "bcppul/bcppul_expimp.h"
 #include <iostream>
 
 

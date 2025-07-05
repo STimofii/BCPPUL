@@ -11,3 +11,6 @@ Also, the **stopAndPrintTime()** method stops the timer and prints the time in s
 
 **CPUCyclesTimer** and **CPUCyclesSimpleTimer** work in a similar way, but instead of time, 
 they calculate the approximate number of processor cycles.
+
+### Math **precalculator**:
+Don't use math precalculator, because it have very low performance!!!
