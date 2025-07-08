@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(BCPPUL_VERSION_MAJOR 0)
 set(BCPPUL_VERSION_MINOR 1)
-set(BCPPUL_VERSION_PATCH 6)
+set(BCPPUL_VERSION_PATCH 7)
 
 configure_file(
     include/bcppul/version_config.h.in
@@ -22,11 +22,11 @@ add_library(bcppul_shared SHARED)
 
 target_sources(bcppul_static PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp")
 
 target_sources(bcppul_shared PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp")
 
 target_compile_definitions(bcppul_shared PRIVATE BCPPUL_EXPORTS)
 

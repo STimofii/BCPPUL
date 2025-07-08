@@ -139,4 +139,36 @@ namespace bcppul {
 		}
 		return oss.str();
 	}
+	std::string& ltrim(std::string& s)
+	{
+		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+			return !std::isspace(ch);
+			}));
+		return s;
+	}
+	std::string& rtrim(std::string& s)
+	{
+		s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+			return !std::isspace(ch);
+			}).base(), s.end());
+		return s;
+	}
+	std::string& trim(std::string& s)
+	{
+		ltrim(s);
+		rtrim(s);
+		return s;
+	}
+	size_t findXOf(std::string& str, char c, size_t x) {
+		size_t j = 0;
+		for (size_t i = 0; i < str.length(); ++i)
+		{
+			if (str[i] == c) {
+				if (j == x) {
+					return i;
+				}
+				++j;
+			}
+		}
+	}
 }
