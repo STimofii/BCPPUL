@@ -25,6 +25,9 @@ namespace bcppul {
 		double getDouble(std::string key, double standard_value = 0.0);
 		bool getBool(std::string key, bool standard_value = false);
 		void set(std::string key, std::string value);
+		void set(std::string key, long long value);
+		void set(std::string key, double value);
+		void set(std::string key, bool value);
 		void save();
 		std::string saveInString();
 		std::string& getPath();

@@ -98,6 +98,20 @@ namespace bcppul {
 	{
 		map[key] = value;
 	}
+	void Properties::set(std::string key, long long value)
+	{
+		map[key] = std::to_string(value);
+	}
+	void Properties::set(std::string key, double value)
+	{
+		map[key] = std::to_string(value);
+	}
+	void Properties::set(std::string key, bool value)
+	{
+		map[key] = value ? "true" : "false";
+	}
+
+
 	void Properties::save()
 	{
 		std::ofstream os;
