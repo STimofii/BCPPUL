@@ -17,17 +17,17 @@ namespace bcppul {
 	"NONE"
 	};
 
+	std::unordered_map<std::string, Logger*> loggers;
 	Logger* logger_root = getLogger(std::string(""));
 	LogLevel console_log_level = LogLevel::TRACE;
 	LogLevel file_log_level = LogLevel::WARNING;
 	std::string logOutFileName = "log.log";
 	std::ofstream logOutFS;
-	std::unordered_map<std::string, Logger*> loggers;
 
 	Logger::Logger(std::string name, Logger* parent)
 	{
 		if (parent != nullptr) {
-			this->name = parent->getName();
+			this->name = parent->getName() + "/";
 		}
 		this->name += name;
 	}
@@ -90,14 +90,18 @@ namespace bcppul {
 	}
 	Logger* getLogger(std::string name, Logger* parent)
 	{
-		std::string full_name = name;
+		std::string full_name;
 		if(parent != nullptr){
-			full_name += parent->name;
+			full_name = parent->getName() + "/";
 		}
+		full_name += name;
+		//if (loggers.size() == 0) {
+		//	loggers[full_name] = new Logger(name, parent);
+		//}
 		if (loggers.find(full_name) == loggers.end()) {
-			loggers[name] = new Logger(name, parent);
+			loggers[full_name] = new Logger(name, parent);
 		}
-		return loggers[name];
+		return loggers[full_name];
 	}
 	void initLogging()
 	{
