@@ -22,6 +22,7 @@ namespace bcppul {
 	LogLevel file_log_level = LogLevel::WARNING;
 	std::string logOutFileName = "log.log";
 	std::ofstream logOutFS;
+	std::unordered_map<std::string, Logger*> loggers;
 
 	Logger::Logger(std::string name, Logger* parent)
 	{
@@ -103,11 +104,13 @@ namespace bcppul {
 		if(file_log_level != NONE){
 			logOutFS.open(logOutFileName);
 		}
-
 	}
 	void finalizationLogging()
 	{
 		logOutFS.close();
+		for (auto& pair : loggers) {
+			delete pair.second;
+		}
 		loggers.clear();
 	}
 	void logLogRecord(LogRecord& record)
