@@ -3,9 +3,9 @@
 #include "bcppul_expimp.h"
 
 #include <string>
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
 
 namespace bcppul {
@@ -27,6 +27,7 @@ namespace bcppul {
 	extern BCPPUL_API LogLevel file_log_level;
 	extern BCPPUL_API std::string logOutFileName;
 	extern BCPPUL_API std::ofstream logOutFS;
+	BCPPUL_API std::unordered_map<std::string, Logger*> loggers;
 
 	BCPPUL_API struct LogRecord {
 		Logger* logger;

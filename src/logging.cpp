@@ -89,7 +89,14 @@ namespace bcppul {
 	}
 	Logger* getLogger(std::string name, Logger* parent)
 	{
-		return new Logger(name, parent);
+		std::string full_name = name;
+		if(parent != nullptr){
+			full_name += parent->name;
+		}
+		if (loggers.find(full_name) == loggers.end()) {
+			loggers[name] = new Logger(name, parent);
+		}
+		return loggers[name];
 	}
 	void initLogging()
 	{
@@ -101,6 +108,7 @@ namespace bcppul {
 	void finalizationLogging()
 	{
 		logOutFS.close();
+		loggers.clear();
 	}
 	void logLogRecord(LogRecord& record)
 	{
