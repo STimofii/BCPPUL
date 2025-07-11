@@ -58,7 +58,7 @@ namespace bcppul {
 		}
 		return os;
 	}
-	std::string Properties::get(std::string& key, std::string& standard_value)
+	std::string Properties::get(const std::string& key, const std::string& standard_value)
 	{
 		std::string value = map[key];
 		if (value.empty()) {
@@ -67,7 +67,7 @@ namespace bcppul {
 		return value;
 	}
 
-	long long Properties::getLong(std::string& key, long long standard_value)
+	long long Properties::getLong(const std::string& key, long long standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -75,7 +75,7 @@ namespace bcppul {
 		} 
 		return std::atol(value.c_str());
 	}
-	double Properties::getDouble(std::string& key, double standard_value)
+	double Properties::getDouble(const std::string& key, double standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -83,7 +83,7 @@ namespace bcppul {
 		}
 		return std::atof(value.c_str());
 	}
-	bool Properties::getBool(std::string& key, bool standard_value)
+	bool Properties::getBool(const std::string& key, bool standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -98,25 +98,25 @@ namespace bcppul {
 
 	}
 
-	void Properties::set(std::string& key, std::string& value)
+	void Properties::set(const std::string& key, const std::string& value)
 	{
 		map[key] = value;
 	}
-	void Properties::set(std::string& key, long long value)
+	void Properties::set(const std::string& key, long long value)
 	{
 		map[key] = std::to_string(value);
 	}
-	void Properties::set(std::string& key, double value)
+	void Properties::set(const std::string& key, double value)
 	{
 		map[key] = std::to_string(value);
 	}
-	void Properties::set(std::string& key, bool value)
+	void Properties::set(const std::string& key, bool value)
 	{
 		map[key] = value ? "true" : "false";
 	}
 
 
-	std::vector<std::string> Properties::getArray(std::string& key)
+	std::vector<std::string> Properties::getArray(const std::string& key)
 	{
 		std::string value = get(key);
 		std::vector<std::string> out;
@@ -138,7 +138,7 @@ namespace bcppul {
 		return out;
 	}
 
-	std::vector<long long> Properties::getLongArray(std::string& key)
+	std::vector<long long> Properties::getLongArray(const std::string& key)
 	{
 		std::vector<std::string> values = getArray(key);
 		std::vector<long long> out;
@@ -149,7 +149,7 @@ namespace bcppul {
 		}
 		return out;
 	}
-	std::vector<double> Properties::getDoubleArray(std::string& key)
+	std::vector<double> Properties::getDoubleArray(const std::string& key)
 	{
 		std::vector<std::string> values = getArray(key);
 		std::vector<double> out;
@@ -160,7 +160,7 @@ namespace bcppul {
 		}
 		return out;
 	}
-	std::vector<bool> Properties::getBoolArray(std::string& key)
+	std::vector<bool> Properties::getBoolArray(const std::string& key)
 	{
 		std::vector<std::string> values = getArray(key);
 		std::vector<bool> out;
@@ -176,7 +176,7 @@ namespace bcppul {
 		}
 		return out;
 	}
-	void Properties::setArray(std::string& key, std::string* array, unsigned int len)
+	void Properties::setArray(const std::string& key, const std::string* array, unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len-1; i++)
@@ -186,7 +186,7 @@ namespace bcppul {
 		ss << array[len-1];
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, long long* array, unsigned int len)
+	void Properties::setArray(const std::string& key, long long* array, unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)
@@ -196,7 +196,7 @@ namespace bcppul {
 		ss << std::to_string(array[len - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, double* array, unsigned int len)
+	void Properties::setArray(const std::string& key, double* array, unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)
@@ -206,7 +206,7 @@ namespace bcppul {
 		ss << std::to_string(array[len - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, bool* array, unsigned int len)
+	void Properties::setArray(const std::string& key, bool* array, unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)
@@ -227,7 +227,7 @@ namespace bcppul {
 		}
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, std::vector<std::string>& array)
+	void Properties::setArray(const std::string& key, const std::vector<std::string>& array)
 	{
 		if (array.size() == 0) {
 			set(key, "");
@@ -241,7 +241,7 @@ namespace bcppul {
 		ss << array[array.size() - 1];
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, std::vector<long long>& array)
+	void Properties::setArray(const std::string& key, const std::vector<long long>& array)
 	{
 		if (array.size() == 0) {
 			set(key, "");
@@ -255,7 +255,7 @@ namespace bcppul {
 		ss << std::to_string(array[array.size() - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, std::vector<double>& array)
+	void Properties::setArray(const std::string& key, const std::vector<double>& array)
 	{
 		if (array.size() == 0) {
 			set(key, "");
@@ -269,7 +269,7 @@ namespace bcppul {
 		ss << std::to_string(array[array.size() - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(std::string& key, std::vector<bool>& array)
+	void Properties::setArray(const std::string& key, const std::vector<bool>& array)
 	{
 		if (array.size() == 0) {
 			set(key, "");

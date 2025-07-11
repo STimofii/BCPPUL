@@ -2,6 +2,7 @@
 #pragma once
 #include "bcppul/bcppul_expimp.h"
 #include <unordered_map>
+#include <vector>
 #include <iostream>
 #include <string>
 
@@ -20,27 +21,27 @@ namespace bcppul {
 		void loadLine(std::string& text);
 		friend std::ostream& operator<<(std::ostream& os, Properties& properties);
 
-		std::string get(std::string& key, std::string& standard_value = std::string(""));
-		long long getLong(std::string& key, long long standard_value = 0);
-		double getDouble(std::string& key, double standard_value = 0.0);
-		bool getBool(std::string& key, bool standard_value = false);
-		void set(std::string& key, std::string& value);
-		void set(std::string& key, long long value);
-		void set(std::string& key, double value);
-		void set(std::string& key, bool value);
+		std::string get(const std::string& key, const std::string& standard_value = std::string(""));
+		long long getLong(const std::string& key, long long standard_value = 0);
+		double getDouble(const std::string& key, double standard_value = 0.0);
+		bool getBool(const std::string& key, bool standard_value = false);
+		void set(const std::string& key, const std::string& value);
+		void set(const std::string& key, long long value);
+		void set(const std::string& key, double value);
+		void set(const std::string& key, bool value);
 
-		std::vector<std::string> getArray(std::string& key);
-		std::vector<long long> getLongArray(std::string& key);
-		std::vector<double> getDoubleArray(std::string& key);
-		std::vector<bool> getBoolArray(std::string& key);
-		void setArray(std::string& key, std::string* array, unsigned int len);
-		void setArray(std::string& key, long long* array, unsigned int len);
-		void setArray(std::string& key, double* array, unsigned int len);
-		void setArray(std::string& key, bool* array, unsigned int len);
-		void setArray(std::string& key, std::vector<std::string>& array);
-		void setArray(std::string& key, std::vector<long long>& array);
-		void setArray(std::string& key, std::vector<double>& array);
-		void setArray(std::string& key, std::vector<bool>& array);
+		std::vector<std::string> getArray(const std::string& key);
+		std::vector<long long> getLongArray(const std::string& key);
+		std::vector<double> getDoubleArray(const std::string& key);
+		std::vector<bool> getBoolArray(const std::string& key);
+		void setArray(const std::string& key, const std::string* array, unsigned int len);
+		void setArray(const std::string& key, long long* array, unsigned int len);
+		void setArray(const std::string& key, double* array, unsigned int len);
+		void setArray(const std::string& key, bool* array, unsigned int len);
+		void setArray(const std::string& key, const std::vector<std::string>& array);
+		void setArray(const std::string& key, const std::vector<long long>& array);
+		void setArray(const std::string& key, const std::vector<double>& array);
+		void setArray(const std::string& key, const std::vector<bool>& array);
 
 		inline std::string get(const char* key, const char* standard_value = "") {
 			return get(std::string(key), std::string(standard_value));
@@ -90,16 +91,16 @@ namespace bcppul {
 		inline void setArray(const char* key, bool* array, unsigned int len) {
 			setArray(std::string(key), array, len);
 		}
-		inline void setArray(const char* key, std::vector<std::string>& array) {
+		inline void setArray(const char* key, const std::vector<std::string>& array) {
 			setArray(std::string(key), array);
 		}
-		inline void setArray(const char* key, std::vector<long long>& array) {
+		inline void setArray(const char* key, const std::vector<long long>& array) {
 			setArray(std::string(key), array);
 		}
-		inline void setArray(const char* key, std::vector<double>& array) {
+		inline void setArray(const char* key, const std::vector<double>& array) {
 			setArray(std::string(key), array);
 		}
-		inline void setArray(const char* key, std::vector<bool>& array) {
+		inline void setArray(const char* key, const std::vector<bool>& array) {
 			setArray(std::string(key), array);
 		}
 
