@@ -90,14 +90,13 @@ namespace bcppul {
 	}
 	Logger* getLogger(std::string name, Logger* parent)
 	{
+		static std::unordered_map<std::string, Logger*> loggers;
 		std::string full_name;
+
 		if(parent != nullptr){
 			full_name = parent->getName() + "/";
 		}
 		full_name += name;
-		//if (loggers.size() == 0) {
-		//	loggers[full_name] = new Logger(name, parent);
-		//}
 		if (loggers.find(full_name) == loggers.end()) {
 			loggers[full_name] = new Logger(name, parent);
 		}
