@@ -14,7 +14,7 @@ namespace bcppul {
 	}
 	void Properties::load()
 	{
-		map.clear();
+		values.clear();
 		std::ifstream is;
 		is.open(path);
 		if (!is.is_open()) {
@@ -37,11 +37,11 @@ namespace bcppul {
 		std::string key = trim(line.substr(0, equal));
 		std::string value = trim(line.substr(equal+1));
 
-		map[key] = value;
+		values[key] = value;
 	}
 	void Properties::load(std::string& text)
 	{
-		map.clear();
+		values.clear();
 		size_t begin = 0;
 		size_t end = text.find_first_of("\n");
 		for (size_t i = 0; begin < text.length(); ++i) {
@@ -53,21 +53,21 @@ namespace bcppul {
 	}
 	std::ostream& operator<<(std::ostream& os, Properties& properties)
 	{
-		for (auto& pair : properties.map) {
+		for (auto& pair : properties.values) {
 			os << pair.first << " = " << pair.second << "\n";
 		}
 		return os;
 	}
 	std::string Properties::get(const std::string& key, const std::string& standard_value)
 	{
-		std::string value = map[key];
+		std::string value = values[key];
 		if (value.empty()) {
 			value = standard_value;
 		}
 		return value;
 	}
 
-	long long Properties::getLong(const std::string& key, long long standard_value)
+	long long Properties::getLong(const std::string& key, const long long standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -75,7 +75,7 @@ namespace bcppul {
 		} 
 		return std::atol(value.c_str());
 	}
-	double Properties::getDouble(const std::string& key, double standard_value)
+	double Properties::getDouble(const std::string& key, const double standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -83,7 +83,7 @@ namespace bcppul {
 		}
 		return std::atof(value.c_str());
 	}
-	bool Properties::getBool(const std::string& key, bool standard_value)
+	bool Properties::getBool(const std::string& key, const bool standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -100,19 +100,19 @@ namespace bcppul {
 
 	void Properties::set(const std::string& key, const std::string& value)
 	{
-		map[key] = value;
+		values[key] = value;
 	}
-	void Properties::set(const std::string& key, long long value)
+	void Properties::set(const std::string& key, const long long value)
 	{
-		map[key] = std::to_string(value);
+		values[key] = std::to_string(value);
 	}
-	void Properties::set(const std::string& key, double value)
+	void Properties::set(const std::string& key, const double value)
 	{
-		map[key] = std::to_string(value);
+		values[key] = std::to_string(value);
 	}
-	void Properties::set(const std::string& key, bool value)
+	void Properties::set(const std::string& key, const bool value)
 	{
-		map[key] = value ? "true" : "false";
+		values[key] = value ? "true" : "false";
 	}
 
 
@@ -176,7 +176,7 @@ namespace bcppul {
 		}
 		return out;
 	}
-	void Properties::setArray(const std::string& key, const std::string* array, unsigned int len)
+	void Properties::setArray(const std::string& key, const std::string* array, const unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len-1; i++)
@@ -186,7 +186,7 @@ namespace bcppul {
 		ss << array[len-1];
 		set(key, ss.str());
 	}
-	void Properties::setArray(const std::string& key, long long* array, unsigned int len)
+	void Properties::setArray(const std::string& key, long long* array, const unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)
@@ -196,7 +196,7 @@ namespace bcppul {
 		ss << std::to_string(array[len - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(const std::string& key, double* array, unsigned int len)
+	void Properties::setArray(const std::string& key, double* array, const unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)
@@ -206,7 +206,7 @@ namespace bcppul {
 		ss << std::to_string(array[len - 1]);
 		set(key, ss.str());
 	}
-	void Properties::setArray(const std::string& key, bool* array, unsigned int len)
+	void Properties::setArray(const std::string& key, bool* array, const unsigned int len)
 	{
 		std::stringstream ss;
 		for (unsigned int i = 0; i < len - 1; i++)

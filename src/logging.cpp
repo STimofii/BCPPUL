@@ -116,4 +116,16 @@ namespace bcppul {
 			logOutFS << record;
 		}
 	}
+	LogStream::LogStream(Logger* logger, LogLevel level) : logger_ptr(logger), current_level(level)
+	{
+
+	}
+	LogStream::~LogStream()
+	{
+		{
+			if (logger_ptr) {
+				logger_ptr->log(current_level, message_stream.str());
+			}
+		}
+	}
 }

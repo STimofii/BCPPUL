@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 namespace bcppul {
 	BCPPUL_API class Logger;
@@ -33,6 +35,23 @@ namespace bcppul {
 
 		friend std::ostream& operator<<(std::ostream& os, LogRecord& logRecord);
 	};
+	class BCPPUL_API LogStream {
+	private:
+		Logger* logger_ptr;
+		LogLevel current_level;
+		std::stringstream message_stream;
+
+	public:
+		LogStream(Logger* logger, LogLevel level);
+
+		template<typename T>
+		LogStream& operator<<(const T& value) {
+			message_stream << value;
+			return *this;
+		}
+
+		~LogStream();
+	};
 	BCPPUL_API class Logger {
 	private:
 	protected:
@@ -50,6 +69,31 @@ namespace bcppul {
 		void BCPPUL_API warning(const char* message);
 		void BCPPUL_API error(const char* message);
 		void BCPPUL_API fatal(const char* message);
+		void BCPPUL_API log(LogLevel level, const std::string& message) {
+			log(level, message.c_str());
+		}
+		void BCPPUL_API trace(const std::string& message) {
+			trace(message.c_str());
+		}
+		void BCPPUL_API debug(const std::string& message) {
+			debug(message.c_str());
+		}
+		void BCPPUL_API info(const std::string& message) {
+			info(message.c_str());
+		}
+		void BCPPUL_API warning(const std::string& message) {
+			warning(message.c_str());
+		}
+		void BCPPUL_API error(const std::string& message) {
+			error(message.c_str());
+		}
+		void BCPPUL_API fatal(const std::string& message) {
+			fatal(message.c_str());
+		}
+
+		LogStream operator<<(LogLevel level) {
+			return LogStream(this, level);
+		}
 
 		friend BCPPUL_API Logger* getLogger(std::string name, Logger* parent);
 	};
