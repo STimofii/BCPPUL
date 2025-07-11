@@ -1,6 +1,8 @@
 //src/timer.cpp
 #include "bcppul/timer.h"
 
+#include <chrono>
+#include <iomanip>
 
 namespace bcppul {
 	unsigned long long rdtsc() {

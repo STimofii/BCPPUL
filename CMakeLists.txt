@@ -22,11 +22,11 @@ add_library(bcppul_shared SHARED)
 
 target_sources(bcppul_static PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp" "src/logging.cpp" "include/bcppul/logging.h")
 
 target_sources(bcppul_shared PRIVATE
     src/bcppul.cpp
- "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp")
+ "include/bcppul/timer.h" "src/timer.cpp" "include/bcppul/bcppul_expimp.h" "include/bcppul/file_utils.h" "src/file_utils.cpp" "include/bcppul/string_utils.h" "src/string_utils.cpp" "include/bcppul/bcppul_math.h" "src/bcppul_math.cpp" "include/bcppul/bcppul_math_precalc.h" "src/bcppul_math_precalc.cpp" "include/bcppul/properties.h" "src/properties.cpp" "src/logging.cpp" "include/bcppul/logging.h")
 
 target_compile_definitions(bcppul_shared PRIVATE BCPPUL_EXPORTS)
 

@@ -1,11 +1,10 @@
 //include/bcppul/properties.h
 #pragma once
+#include "bcppul/bcppul_expimp.h"
 #include <unordered_map>
 #include <iostream>
-#include <sstream>
-#include <fstream>
-#include "bcppul/bcppul_expimp.h"
-#include "bcppul/string_utils.h"
+#include <string>
+
 
 namespace bcppul {
 	class BCPPUL_API Properties {

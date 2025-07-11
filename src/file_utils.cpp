@@ -1,6 +1,9 @@
 //src/file_utils.cpp
 #include "bcppul/file_utils.h"
 
+#include <fstream>
+#include <filesystem>
+
 namespace bcppul {
     std::vector<std::string> getFilesInDirectory(std::string path, bool recursively, std::vector<std::string>& files) {
         try {

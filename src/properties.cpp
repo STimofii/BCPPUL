@@ -1,6 +1,10 @@
 //src/properties.cpp
 #include "bcppul/properties.h"
 
+#include <sstream>
+#include <fstream>
+#include "bcppul/string_utils.h"
+
 namespace bcppul {
 	Properties::Properties(std::string path) : path(path)
 	{

@@ -1,6 +1,12 @@
 //src/string_utils.cpp
 #include "bcppul/string_utils.h"
 
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <sstream>
+#include <stdexcept>
+
 namespace bcppul {
 	std::string parseEscapeSequences(const std::string& input_str) {
 		std::ostringstream oss;

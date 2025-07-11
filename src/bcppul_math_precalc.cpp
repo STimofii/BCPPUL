@@ -1,6 +1,11 @@
 //src/bcppul_math_precalc.cpp
 #include "bcppul/bcppul_math_precalc.h"
 
+#include "bcppul/bcppul_math.h"
+#include <cmath>
+#include <exception>
+#include <iostream>
+
 namespace bcppul {
 	Precalculation::Precalculation()
 	{
