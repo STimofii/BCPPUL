@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(BCPPUL_VERSION_MAJOR 0)
 set(BCPPUL_VERSION_MINOR 1)
-set(BCPPUL_VERSION_PATCH 8)
+set(BCPPUL_VERSION_PATCH 9)
 
 configure_file(
     include/bcppul/version_config.h.in

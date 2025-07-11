@@ -19,14 +19,90 @@ namespace bcppul {
 		void load(std::string& text);
 		void loadLine(std::string& text);
 		friend std::ostream& operator<<(std::ostream& os, Properties& properties);
-		std::string get(std::string key, std::string standard_value = "");
-		long long getLong(std::string key, long long standard_value = 0);
-		double getDouble(std::string key, double standard_value = 0.0);
-		bool getBool(std::string key, bool standard_value = false);
-		void set(std::string key, std::string value);
-		void set(std::string key, long long value);
-		void set(std::string key, double value);
-		void set(std::string key, bool value);
+
+		std::string get(std::string& key, std::string& standard_value = std::string(""));
+		long long getLong(std::string& key, long long standard_value = 0);
+		double getDouble(std::string& key, double standard_value = 0.0);
+		bool getBool(std::string& key, bool standard_value = false);
+		void set(std::string& key, std::string& value);
+		void set(std::string& key, long long value);
+		void set(std::string& key, double value);
+		void set(std::string& key, bool value);
+
+		std::vector<std::string> getArray(std::string& key);
+		std::vector<long long> getLongArray(std::string& key);
+		std::vector<double> getDoubleArray(std::string& key);
+		std::vector<bool> getBoolArray(std::string& key);
+		void setArray(std::string& key, std::string* array, unsigned int len);
+		void setArray(std::string& key, long long* array, unsigned int len);
+		void setArray(std::string& key, double* array, unsigned int len);
+		void setArray(std::string& key, bool* array, unsigned int len);
+		void setArray(std::string& key, std::vector<std::string>& array);
+		void setArray(std::string& key, std::vector<long long>& array);
+		void setArray(std::string& key, std::vector<double>& array);
+		void setArray(std::string& key, std::vector<bool>& array);
+
+		inline std::string get(const char* key, const char* standard_value = "") {
+			return get(std::string(key), std::string(standard_value));
+		}
+		inline long long getLong(const char* key, long long standard_value = 0) {
+			return getLong(std::string(key), standard_value);
+		}
+		inline double getDouble(const char* key, double standard_value = 0.0) {
+			return getDouble(std::string(key), standard_value);
+		}
+		inline bool getBool(const char* key, bool standard_value = false) {
+			return getBool(std::string(key), standard_value);
+		}
+		inline void set(const char* key, const char* value) {
+			set(std::string(key), std::string(value));
+		}
+		inline void set(const char* key, long long value) {
+			set(std::string(key), value);
+		}
+		inline void set(const char* key, double value) {
+			set(std::string(key), value);
+		}
+		inline void set(const char* key, bool value) {
+			set(std::string(key), value);
+		}
+		inline std::vector<std::string> getArray(const char* key) {
+			return getArray(std::string(key));
+		}
+		inline std::vector<long long> getLongArray(const char* key) {
+			return getLongArray(std::string(key));
+		}
+		inline std::vector<double> getDoubleArray(const char* key) {
+			return getDoubleArray(std::string(key));
+		}
+		inline std::vector<bool> getBoolArray(const char* key) {
+			return getBoolArray(std::string(key));
+		}
+		inline void setArray(const char* key, std::string* array, unsigned int len) {
+			setArray(std::string(key), array, len);
+		}
+		inline void setArray(const char* key, long long* array, unsigned int len) {
+			setArray(std::string(key), array, len);
+		}
+		inline void setArray(const char* key, double* array, unsigned int len) {
+			setArray(std::string(key), array, len);
+		}
+		inline void setArray(const char* key, bool* array, unsigned int len) {
+			setArray(std::string(key), array, len);
+		}
+		inline void setArray(const char* key, std::vector<std::string>& array) {
+			setArray(std::string(key), array);
+		}
+		inline void setArray(const char* key, std::vector<long long>& array) {
+			setArray(std::string(key), array);
+		}
+		inline void setArray(const char* key, std::vector<double>& array) {
+			setArray(std::string(key), array);
+		}
+		inline void setArray(const char* key, std::vector<bool>& array) {
+			setArray(std::string(key), array);
+		}
+
 		void save();
 		std::string saveInString();
 		std::string& getPath();

@@ -58,7 +58,7 @@ namespace bcppul {
 		}
 		return os;
 	}
-	std::string Properties::get(std::string key, std::string standard_value)
+	std::string Properties::get(std::string& key, std::string& standard_value)
 	{
 		std::string value = map[key];
 		if (value.empty()) {
@@ -67,7 +67,7 @@ namespace bcppul {
 		return value;
 	}
 
-	long long Properties::getLong(std::string key, long long standard_value)
+	long long Properties::getLong(std::string& key, long long standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -75,7 +75,7 @@ namespace bcppul {
 		} 
 		return std::atol(value.c_str());
 	}
-	double Properties::getDouble(std::string key, double standard_value)
+	double Properties::getDouble(std::string& key, double standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -83,7 +83,7 @@ namespace bcppul {
 		}
 		return std::atof(value.c_str());
 	}
-	bool Properties::getBool(std::string key, bool standard_value)
+	bool Properties::getBool(std::string& key, bool standard_value)
 	{
 		std::string value = get(key);
 		if (value.empty()) {
@@ -98,21 +98,201 @@ namespace bcppul {
 
 	}
 
-	void Properties::set(std::string key, std::string value)
+	void Properties::set(std::string& key, std::string& value)
 	{
 		map[key] = value;
 	}
-	void Properties::set(std::string key, long long value)
+	void Properties::set(std::string& key, long long value)
 	{
 		map[key] = std::to_string(value);
 	}
-	void Properties::set(std::string key, double value)
+	void Properties::set(std::string& key, double value)
 	{
 		map[key] = std::to_string(value);
 	}
-	void Properties::set(std::string key, bool value)
+	void Properties::set(std::string& key, bool value)
 	{
 		map[key] = value ? "true" : "false";
+	}
+
+
+	std::vector<std::string> Properties::getArray(std::string& key)
+	{
+		std::string value = get(key);
+		std::vector<std::string> out;
+
+
+		std::stringstream ss(value);
+		std::string segment;
+		unsigned int first = segment.find_first_not_of(' ');
+		while (std::getline(ss, segment, ',')) {
+			unsigned int first = segment.find_first_not_of(' ');
+			if (segment.empty() || first == std::string::npos) {
+				out.push_back("");
+			}
+			else {
+				out.push_back(segment.substr(first, (segment.find_last_not_of(' ') - first + 1)));
+			}
+		}
+
+		return out;
+	}
+
+	std::vector<long long> Properties::getLongArray(std::string& key)
+	{
+		std::vector<std::string> values = getArray(key);
+		std::vector<long long> out;
+		out.reserve(values.size());
+		for (std::string val : values)
+		{
+			out.push_back(std::atol(val.c_str()));
+		}
+		return out;
+	}
+	std::vector<double> Properties::getDoubleArray(std::string& key)
+	{
+		std::vector<std::string> values = getArray(key);
+		std::vector<double> out;
+		out.reserve(values.size());
+		for (std::string val : values)
+		{
+			out.push_back(std::atof(val.c_str()));
+		}
+		return out;
+	}
+	std::vector<bool> Properties::getBoolArray(std::string& key)
+	{
+		std::vector<std::string> values = getArray(key);
+		std::vector<bool> out;
+		out.reserve(values.size());
+		for (std::string val : values)
+		{
+			if (val.compare("true") == 0 || val.compare("TRUE") == 0) {
+				out.push_back(true);
+			}
+			else {
+				out.push_back(false);
+			}
+		}
+		return out;
+	}
+	void Properties::setArray(std::string& key, std::string* array, unsigned int len)
+	{
+		std::stringstream ss;
+		for (unsigned int i = 0; i < len-1; i++)
+		{
+			ss << array[i] << ", ";
+		}
+		ss << array[len-1];
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, long long* array, unsigned int len)
+	{
+		std::stringstream ss;
+		for (unsigned int i = 0; i < len - 1; i++)
+		{
+			ss << std::to_string(array[i]) << ", ";
+		}
+		ss << std::to_string(array[len - 1]);
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, double* array, unsigned int len)
+	{
+		std::stringstream ss;
+		for (unsigned int i = 0; i < len - 1; i++)
+		{
+			ss << std::to_string(array[i]) << ", ";
+		}
+		ss << std::to_string(array[len - 1]);
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, bool* array, unsigned int len)
+	{
+		std::stringstream ss;
+		for (unsigned int i = 0; i < len - 1; i++)
+		{
+			if (array[i]) {
+				ss << "true";
+			}
+			else {
+				ss << "false";
+			}
+			ss << ", ";
+		}
+		if (array[len - 1]) {
+			ss << "true";
+		}
+		else {
+			ss << "false";
+		}
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, std::vector<std::string>& array)
+	{
+		if (array.size() == 0) {
+			set(key, "");
+			return;
+		}
+		std::stringstream ss;
+		for (unsigned int i = 0; i < array.size() - 1; i++)
+		{
+			ss << array[i] << ", ";
+		}
+		ss << array[array.size() - 1];
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, std::vector<long long>& array)
+	{
+		if (array.size() == 0) {
+			set(key, "");
+			return;
+		}
+		std::stringstream ss;
+		for (unsigned int i = 0; i < array.size() - 1; i++)
+		{
+			ss << std::to_string(array[i]) << ", ";
+		}
+		ss << std::to_string(array[array.size() - 1]);
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, std::vector<double>& array)
+	{
+		if (array.size() == 0) {
+			set(key, "");
+			return;
+		}
+		std::stringstream ss;
+		for (unsigned int i = 0; i < array.size() - 1; i++)
+		{
+			ss << std::to_string(array[i]) << ", ";
+		}
+		ss << std::to_string(array[array.size() - 1]);
+		set(key, ss.str());
+	}
+	void Properties::setArray(std::string& key, std::vector<bool>& array)
+	{
+		if (array.size() == 0) {
+			set(key, "");
+			return;
+		}
+		std::stringstream ss;
+		for (unsigned int i = 0; i < array.size() - 1; i++)
+		{
+			if (array[i]) {
+				ss << "true";
+			}
+			else {
+				ss << "false";
+			}
+			ss << ", ";
+		}
+		if (array[array.size() - 1]) {
+			ss << "true";
+		}
+		else {
+			ss << "false";
+		}
+		set(key, ss.str());
 	}
 
 
