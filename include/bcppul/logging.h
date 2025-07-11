@@ -44,6 +44,26 @@ namespace bcppul {
 	public:
 		LogStream(Logger* logger, LogLevel level);
 
+		LogStream(const LogStream&) = delete;
+		LogStream& operator=(const LogStream&) = delete;
+
+		LogStream(LogStream&& other) noexcept
+			: logger_ptr(other.logger_ptr),
+			current_level(other.current_level),
+			message_stream(std::move(other.message_stream)) {
+			other.logger_ptr = nullptr;
+		}
+
+		LogStream& operator=(LogStream&& other) noexcept {
+			if (this != &other) {
+				logger_ptr = other.logger_ptr;
+				current_level = other.current_level;
+				message_stream = std::move(other.message_stream);
+				other.logger_ptr = nullptr;
+			}
+			return *this;
+		}
+
 		template<typename T>
 		LogStream& operator<<(const T& value) {
 			message_stream << value;
