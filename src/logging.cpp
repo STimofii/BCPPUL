@@ -23,6 +23,7 @@ namespace bcppul {
 	LogLevel file_log_level = LogLevel::WARNING;
 	std::string logOutFileName = "log.log";
 	std::ofstream logOutFS;
+	std::mutex mutex;
 
 	Logger::Logger(std::string name, Logger* parent)
 	{
@@ -118,6 +119,7 @@ namespace bcppul {
 	}
 	void logLogRecord(LogRecord& record)
 	{
+		mutex.lock();
 		if (record.level >= console_log_level) {
 			if(record.level >= LogLevel::WARNING){
 				std::cerr << record;
@@ -129,6 +131,7 @@ namespace bcppul {
 		if (record.level >= file_log_level) {
 			logOutFS << record;
 		}
+		mutex.unlock();
 	}
 	LogStream::LogStream(Logger* logger, LogLevel level) : logger_ptr(logger), current_level(level)
 	{
